@@ -33,17 +33,18 @@ OBJ			= $(SRC:%.c=$(OBJ_DIR)/%.o)
 
 LIBFT		= libft/libft.a
 
-MLX_DIR		= minilibx/minilibx-linux
-MLX_TGZ		= minilibx/minilibx-linux.tgz
-LDFLAGS		= -L$(MLX_DIR) -lmlx_Linux -lX11 -lXext -lm
+MLX_DIR		= minilibx/minilibx_opengl_20191021
+MLX_TGZ		= minilibx/minilibx_macos_opengl.tgz
+MLX_LIB		= $(MLX_DIR)/libmlx.a
+LDFLAGS		= -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
 
-all: $(MLX_DIR) $(LIBFT) $(NAME)
+all: $(MLX_LIB) $(LIBFT) $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) $(MLX_LIB) $(LIBFT)
 	$(CC) $(CFLAGS) -I$(MLX_DIR) $(OBJ) $(LIBFT) $(LDFLAGS) -o $(NAME)
 
-$(MLX_DIR):
-	tar -xzf $(MLX_TGZ) -C minilibx
+$(MLX_LIB):
+	@if [ ! -d "$(MLX_DIR)" ]; then tar -xzf $(MLX_TGZ) -C minilibx; fi
 	make -C $(MLX_DIR)
 
 $(LIBFT):

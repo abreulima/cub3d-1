@@ -1,11 +1,9 @@
-#include <cub3d.h>
-#include <stdio.h>
-#include <string.h>
+#include "cub3d.h"
+#include "parsing.h"
 
-
-int	game_loop(void *data)
+static int	game_loop(void *data)
 {
-	t_game *g;
+	t_game	*g;
 
 	g = (t_game *)data;
 	move_player(g);
@@ -14,7 +12,7 @@ int	game_loop(void *data)
 	return (0);
 }
 
-int	keydown(int keycode, t_game *g)
+static int	keydown(int keycode, t_game *g)
 {
 	g->keys[keycode] = true;
 	if (keycode == ESC_KEY)
@@ -25,155 +23,99 @@ int	keydown(int keycode, t_game *g)
 	return (0);
 }
 
-int	keyup(int keycode, t_game *g)
+static int	keyup(int keycode, t_game *g)
 {
 	g->keys[keycode] = false;
 	return (0);
 }
 
-int	key_click_on_x(t_game *g)
+static int	key_click_on_x(t_game *g)
 {
 	mlx_destroy_window(g->mlx.mlx, g->mlx.window);
 	exit(0);
 }
 
-t_image_data	image_loader(t_game *g, char *path)
+static void	load_textures(t_game *g, t_parse_data *data)
 {
-	t_image_data data;
-
-	data.ptr = mlx_xpm_file_to_image(g->mlx.mlx, path, &data.width,
-			&data.height);
-	if (!data.ptr)
-		return (data);
-	data.buffer = (int *)mlx_get_data_addr(data.ptr, &data.bits_per_pixel,
-			&data.line_length, &data.endian);
-	return (data);
+	g->map.walls[NORTH] = image_loader(g, data->tex_no);
+	g->map.walls[SOUTH] = image_loader(g, data->tex_so);
+	g->map.walls[EAST] = image_loader(g, data->tex_ea);
+	g->map.walls[WEST] = image_loader(g, data->tex_we);
 }
 
-int	main(void)
+static int	rgb_to_int(int r, int g, int b)
 {
-	t_game game;
+	return ((r << 16) | (g << 8) | b);
+}
 
-	game.mlx.mlx = mlx_init();
-	if (!game.mlx.mlx)
-	{
-		ft_putstr(ER_MLXINIT);
-		return (-1);
-	}
-	game.mlx.window = mlx_new_window(game.mlx.mlx, WINDOW_WIDTH, WINDOW_HEIGHT,
-			"cub3d");
-	game.frame.height = WINDOW_HEIGHT;
-	game.frame.width = WINDOW_WIDTH;
-	game.frame.ptr = mlx_new_image(game.mlx.mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+static void	apply_parse_data(t_game *g, t_parse_data *data)
+{
+	g->map.arr = data->map;
+	g->map.w = data->map_w;
+	g->map.h = data->map_h;
+	g->map.floor_color = rgb_to_int(data->floor_r,
+			data->floor_g, data->floor_b);
+	g->map.ceiling_color = rgb_to_int(data->ceil_r,
+			data->ceil_g, data->ceil_b);
+	g->player.x = data->player_x * TILE_SIZE + TILE_SIZE / 2;
+	g->player.y = data->player_y * TILE_SIZE + TILE_SIZE / 2;
+	load_textures(g, data);
+}
 
-	game.delta_time = DELTA_TIME;
+static float	get_player_angle(char dir)
+{
+	if (dir == 'N')
+		return (3 * PI / 2);
+	if (dir == 'S')
+		return (PI / 2);
+	if (dir == 'E')
+		return (0);
+	return (PI);
+}
 
-	// experimental
-	game.frame.buffer = (int *)mlx_get_data_addr(game.frame.ptr,
-			&game.frame.bits_per_pixel, &game.frame.line_length,
-			&game.frame.endian);
-	game.frame.line_length /= 4;
+static int	init_mlx(t_game *g)
+{
+	g->mlx.mlx = mlx_init();
+	if (!g->mlx.mlx)
+		return (parse_error(E_MLX_INIT), -1);
+	g->mlx.window = mlx_new_window(g->mlx.mlx,
+			WINDOW_WIDTH, WINDOW_HEIGHT, "cub3d");
+	g->frame.height = WINDOW_HEIGHT;
+	g->frame.width = WINDOW_WIDTH;
+	g->frame.ptr = mlx_new_image(g->mlx.mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+	g->frame.buffer = (int *)mlx_get_data_addr(g->frame.ptr,
+			&g->frame.bits_per_pixel, &g->frame.line_length,
+			&g->frame.endian);
+	g->frame.line_length /= 4;
+	g->delta_time = DELTA_TIME;
+	return (0);
+}
 
-	game.images.crosshair = image_loader(&game, "_res/crosshair_2.xpm");
+static void	setup_player_from_parse(t_game *g, t_parse_data *data)
+{
+	g->player.height = 8;
+	g->player.width = 8;
+	g->player.turn_dir = 0;
+	g->player.walk_dir = 0;
+	g->player.rot_angle = get_player_angle(data->player_dir);
+	g->player.walk_speed = 100;
+	g->player.turn_speed = 10 * (PI / 180);
+}
 
-	game.images.font_tileset = image_loader(&game, "_res/def_font.xpm");
+int	main(int argc, char **argv)
+{
+	t_game		game;
+	t_parse_data	data;
 
-	for (int i = 0; i < 16; i++)
-	{
-		for (int j = 0; j < 6; j++)
-		{
-			game.font[i + j * 16].ptr = create_img_from_rect(&game,
-					game.images.font_tileset.ptr, (9 * i) + 1, 17 * j + 1, 8,
-					16);
-			game.font[i + j * 16].width = 8;
-			game.font[i + j * 16].height = 16;
-		}
-	}
-
-	char map[NUM_ROWS][NUM_COLS] = {{'1', '1', '1', '1', '1', '1', '1', '1',
-		'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'},
-									{'1', '0', '0', '0', '0', '0', '0', '0',
-										'0', '0', '0', '0', '0', '0', '0', '0',
-										'0', '0', '0', '1'},
-									{'1', '0', '0', '0', '0', '0', '0', '0',
-										'0', '0', '0', '0', '0', '0', '0', '0',
-										'0', '0', '0', '1'},
-									{'1', '0', '0', '0', '1', '0', '1', '0',
-										'1', '0', '1', '0', '1', '0', '1', '0',
-										'1', '0', '0', '1'},
-									{'1', '0', '0', '0', '0', '0', '0', '0',
-										'0', '0', '0', '0', '0', '0', '0', '0',
-										'0', '0', '0', '1'},
-									{'1', '0', '0', '0', '0', '0', '0', '0',
-										'0', '0', '0', '0', '0', '0', '0', '0',
-										'1', '0', '0', '1'},
-									{'1', '0', '0', '0', '0', '0', '0', '0',
-										'0', '0', '0', '0', '0', '0', '0', '0',
-										'1', '0', '0', '1'},
-									{'1', '0', '0', '0', '0', '1', '1', '0',
-										'0', '0', '0', '0', '0', '0', '0', '0',
-										'1', '0', '0', '1'},
-									{'1', '0', '0', '0', '1', '0', '0', '0',
-										'0', '0', '0', '0', '0', '1', '1', '1',
-										'1', '0', '0', '1'},
-									{'1', '0', '0', '0', '0', '0', '0', '0',
-										'0', '0', '0', '0', '0', '0', '0', '0',
-										'0', '0', '0', '1'},
-									{'1', '0', '0', '0', '0', '0', '0', '0',
-										'0', '0', '0', '0', '0', '0', '0', '0',
-										'0', '0', '0', '1'},
-									{'1', '0', '0', '0', '0', '0', '0', '0',
-										'0', '0', '0', '0', '0', '0', '0', '0',
-										'0', '0', '0', '1'},
-									{'1', '1', '1', '1', '1', '1', '1', '1',
-										'1', '1', '1', '1', '1', '1', '1', '1',
-										'1', '1', '1', '1'}};
-
-	// game.map.arr = map_load(".cub", 10, 10);
-	// game.map.arr = (char **)map;
-
-	// Use memcpy to copy arr1 to arr2
-	// memcpy(a, arr1, n * sizeof(arr1[0]));
-	// arr = (int**)malloc(len);
-
-	game.map.arr = malloc(sizeof(char *) * NUM_ROWS);
-	// memcpy(game.map.arr, map, sizeof(char) * NUM_COLS * NUM_ROWS);
-
-	for (int y = 0; y < NUM_ROWS; y++)
-	{
-		game.map.arr[y] = malloc(sizeof(char) * NUM_COLS);
-	}
-
-	for (int y = 0; y < NUM_ROWS; y++)
-	{
-		for (int x = 0; x < NUM_COLS; x++)
-		{
-			game.map.arr[y][x] = map[y][x];
-		}
-	}
-	// return (0);
-
-	game.map.w = NUM_COLS;
-	game.map.h = NUM_ROWS;
-	t_dict *dict = map_load("maps/hello.txt");
-	if (!dict)
-	{
-		ft_putstr(ER_DUPLICATE);
-		exit(EXIT_FAILURE);
-	}
-	if (test_for_textures(dict) == 0)
-	{
-		ft_putstr(ER_MISSINGVALUE);
-		exit(EXIT_FAILURE);
-	}
-	
-	if (load_texture(&game, dict) == -1)
-	{
-		ft_putstr(ER_NOFILE);
-		exit(EXIT_FAILURE);
-	}
-	setup(&game);
-	map_display(game.map.arr, game.map.w, game.map.h);
+	if (argc != 2)
+		return (parse_error(E_ARGS), 1);
+	if (parse_file(argv[1], &data) == -1)
+		return (1);
+	ft_bzero(&game, sizeof(t_game));
+	if (init_mlx(&game) == -1)
+		return (free_parse_data(&data), 1);
+	apply_parse_data(&game, &data);
+	setup_player_from_parse(&game, &data);
 	mlx_loop_hook(game.mlx.mlx, &game_loop, &game);
 	mlx_hook(game.mlx.window, 2, 1L << 0, keydown, &game);
 	mlx_hook(game.mlx.window, 3, 1L << 1, keyup, &game);

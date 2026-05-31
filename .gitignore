@@ -1,0 +1,18 @@
+# Binaries
+cub3d
+cub3d_dbg
+a.out
+*.dSYM/
+
+# Object files
+*.o
+*.a
+
+# Build directories
+obj/
+
+# Archives (mlx tarballs are ok)
+# Keep .tgz files
+
+# OS
+.DS_Store

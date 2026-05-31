@@ -1,7 +1,7 @@
-NO _res/BIGLEAVES.xpm
-SO _res/HEXAGONS.xpm
-WE _res/SPOOKYDOOR.xpm
-EA _res/WINDOW.xpm
+NO res/BIGLEAVES.xpm
+SO res/HEXAGONS.xpm
+WE res/SPOOKYDOOR.xpm
+EA res/WINDOW.xpm
 
 F 220,100,0
 C 225,30,0
