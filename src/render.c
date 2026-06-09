@@ -1,11 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-abre <ide-abre@student.lista42.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/08 07:58:04 by ide-abre          #+#    #+#             */
+/*   Updated: 2026/06/09 15:52:04 by ide-abre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 #include <stdio.h>
 
-
 static void	render_rays(t_game *g)
 {
-	int i;
-	t_line line;
+	int		i;
+	t_line	line;
 
 	i = 0;
 	while (i < NUM_RAYS)
@@ -21,32 +32,45 @@ static void	render_rays(t_game *g)
 	}
 }
 
+static t_rect	tile_rect(int x, int y)
+{
+	return ((t_rect){
+		(x * TILE_SIZE * SCALE) + OFFSET,
+		(y * TILE_SIZE * SCALE) + OFFSET,
+		TILE_SIZE * SCALE,
+		TILE_SIZE * SCALE
+	});
+}
+
 static void	render_map(t_game *g)
 {
-	char tile;
-	t_rect rect;
+	char	tile;
+	int		y;
+	int		x;
 
-	for (int y = 0; y < g->map.h; y++)
+	y = 0;
+	while (y < g->map.h)
 	{
-		for (int x = 0; x < g->map.w; x++)
+		x = 0;
+		while (x < g->map.w)
 		{
-			rect = (t_rect){(x * TILE_SIZE * SCALE) + OFFSET, (y * TILE_SIZE
-					* SCALE) + OFFSET, TILE_SIZE * SCALE, TILE_SIZE * SCALE};
 			tile = g->map.arr[y][x];
 			if (tile == '1')
-				paint_rect(g->frame.buffer, g->frame.line_length, rect,
-					0xFF00FF);
+				paint_rect(g->frame.buffer,
+					g->frame.line_length, tile_rect(x, y), 0xFF00FF);
 			else if (tile == 'P')
-				paint_rect(g->frame.buffer, g->frame.line_length, rect,
-					0xFFFFFF);
+				paint_rect(g->frame.buffer,
+					g->frame.line_length, tile_rect(x, y), 0xFFFFFF);
+			x++;
 		}
+		y++;
 	}
 }
 
 static void	render_player(t_game *g)
 {
-	t_rect rect;
-	t_line line;
+	t_rect	rect;
+	t_line	line;
 
 	rect = (t_rect){g->player.x * SCALE + OFFSET - (g->player.width / 2)
 		* SCALE, g->player.y * SCALE + OFFSET - (g->player.height / 2) * SCALE,
@@ -62,18 +86,28 @@ static void	render_player(t_game *g)
 void	render(t_game *g)
 {
 	clear_window(&g->frame);
-	render_skybox(g, 0xFFAAFF, 0xFFCFAA);
+	render_skybox(g, g->map.ceiling_color, g->map.floor_color);
 	render_walls(g);
 	render_map(g);
 	render_rays(g);
 	render_player(g);
+	mlx_put_image_to_window(g->mlx.mlx, g->mlx.window, g->frame.ptr, 0, 0);
+}
+/*
+void	render(t_game *g)
+{
+	int	degree;
 
+	clear_window(&g->frame);
+	render_skybox(g, g->map.ceiling_color, g->map.floor_color);
+	render_walls(g);
+	render_map(g);
+	render_rays(g);
+	render_player(g);
 	{
-		// numero 4 esta faltando na font?????
-		int degree = normalize_angle(g->player.rot_angle) * (180.0 / PI);
+		degree = normalize_angle(g->player.rot_angle) * (180.0 / PI);
 		render_text(g, ft_itoa(degree), (t_point){200, 128});
 	}
-
 	{
 		render_text(g, "ide-abre", (t_point){200, 32});
 		render_text(g, MSG_1, (t_point){200, 48});
@@ -84,3 +118,4 @@ void	render(t_game *g)
 		WINDOW_HEIGHT / 2 - 16, 32, 32});
 	mlx_put_image_to_window(g->mlx.mlx, g->mlx.window, g->frame.ptr, 0, 0);
 }
+*/

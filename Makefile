@@ -12,12 +12,19 @@ SRC			= $(SRC_DIR)/gnl.c \
 			  $(SRC_DIR)/texture_wall.c \
 			  $(SRC_DIR)/render.c \
 			  $(SRC_DIR)/rays.c \
+			  $(SRC_DIR)/rays_helpers.c \
+			  $(SRC_DIR)/rays_helpers_utils.c \
 			  $(SRC_DIR)/walls.c \
+			  $(SRC_DIR)/walls_utils.c \
 			  $(SRC_DIR)/dict.c \
 			  $(SRC_DIR)/renderer.c \
+			  $(SRC_DIR)/renderer_line.c \
+			  $(SRC_DIR)/renderer_image.c \
+			  $(SRC_DIR)/renderer_image_utils.c \
 			  $(SRC_DIR)/setup.c \
 			  $(SRC_DIR)/player.c \
 			  $(SRC_DIR)/image_loader.c \
+			  $(SRC_DIR)/free_and_exit.c \
 			  $(PARSE_DIR)/parse_file.c \
 			  $(PARSE_DIR)/parse_elements.c \
 			  $(PARSE_DIR)/parse_texture.c \

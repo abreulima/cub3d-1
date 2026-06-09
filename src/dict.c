@@ -1,14 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dict.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-abre <ide-abre@student.lista42.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/08 07:57:45 by ide-abre          #+#    #+#             */
+/*   Updated: 2026/06/08 07:57:46 by ide-abre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "dict.h"
 #include "libftutils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-
 int	dict_set(t_dict **env, const char *key, const char *value)
 {
-	t_dict *current;
-	t_dict *new;
+	t_dict	*current;
+	t_dict	*new;
 
 	if (!env || !key)
 		return (-1);
@@ -29,7 +40,7 @@ int	dict_set(t_dict **env, const char *key, const char *value)
 
 t_dict	*dict_new(const char *key, const char *value)
 {
-	t_dict *new;
+	t_dict	*new;
 
 	if (!key)
 		return (NULL);
@@ -55,7 +66,7 @@ t_dict	*dict_new(const char *key, const char *value)
 
 char	*dict_get(t_dict *head, const char *key)
 {
-	t_dict *current;
+	t_dict	*current;
 
 	if (!head)
 		return (NULL);
@@ -73,8 +84,8 @@ char	*dict_get(t_dict *head, const char *key)
 
 void	free_map(t_dict *env)
 {
-	t_dict *current;
-	t_dict *next;
+	t_dict	*current;
+	t_dict	*next;
 
 	current = env;
 	while (current)

@@ -17,8 +17,8 @@ static int	check_map_chars(char *line, t_parse_data *data)
 	i = 0;
 	while (line[i] && line[i] != '\n')
 	{
-		if (line[i] == 'N' || line[i] == 'S'
-			|| line[i] == 'E' || line[i] == 'W')
+		if (line[i] == 'N' || line[i] == 'S' || line[i] == 'E'
+			|| line[i] == 'W')
 		{
 			if (data->player_dir != 0)
 				return (parse_error(E_MAP_PLAYER), -1);
@@ -33,18 +33,21 @@ static int	check_map_chars(char *line, t_parse_data *data)
 	return (0);
 }
 
-static char	*copy_map_line(char *line, int len)
+static char	*copy_map_line(char *line, int len, int width)
 {
 	char	*row;
 	int		i;
 
-	row = malloc(sizeof(char) * (len + 1));
+	row = malloc(width + 1);
 	if (!row)
 		return (NULL);
 	i = 0;
-	while (i < len)
+	while (i < width)
 	{
-		row[i] = line[i];
+		if (i < len)
+			row[i] = line[i];
+		else
+			row[i] = ' ';
 		i++;
 	}
 	row[i] = '\0';
@@ -83,7 +86,7 @@ int	parse_map_line(char *line, t_parse_data *data)
 	len = get_line_len(line);
 	if (len > data->map_w)
 		data->map_w = len;
-	row = copy_map_line(line, len);
+	row = copy_map_line(line, len, data->map_w);
 	if (!row)
 		return (parse_error(E_MALLOC), -1);
 	return (add_map_row(data, row));

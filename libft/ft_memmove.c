@@ -1,13 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gnl.h                                              :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ide-abre <ide-abre@student.lista42.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/08 17:34:05 by ide-abre          #+#    #+#             */
-/*   Updated: 2026/06/08 17:34:06 by ide-abre         ###   ########.fr       */
+/*   Created: 2026/06/08 22:18:23 by ide-abre          #+#    #+#             */
+/*   Updated: 2026/06/08 22:18:33 by ide-abre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*get_next_line(int fd);
+#include <stdlib.h>
+
+void	*ft_memmove(void *dst, const void *src, size_t len)
+{
+	char	*s;
+	char	*d;
+	size_t	i;
+
+	s = (char *)src;
+	d = (char *)dst;
+	i = 0;
+	if (d > s)
+		while (len-- > 0)
+			d[len] = s[len];
+	else
+		while (i < len)
+		{
+			d[i] = s[i];
+			i++;
+		}
+	return (dst);
+}

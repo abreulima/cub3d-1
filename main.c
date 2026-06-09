@@ -17,7 +17,7 @@ static int	keydown(int keycode, t_game *g)
 	g->keys[keycode] = true;
 	if (keycode == ESC_KEY)
 	{
-		mlx_destroy_window(g->mlx.mlx, g->mlx.window);
+		exit_game(g);
 		exit(0);
 	}
 	return (0);
@@ -31,12 +31,13 @@ static int	keyup(int keycode, t_game *g)
 
 static int	key_click_on_x(t_game *g)
 {
-	mlx_destroy_window(g->mlx.mlx, g->mlx.window);
+	exit_game(g);
 	exit(0);
 }
 
 static void	load_textures(t_game *g, t_parse_data *data)
 {
+	g->images.crosshair = image_loader(g, "res/crosshair_2.xpm");
 	g->map.walls[NORTH] = image_loader(g, data->tex_no);
 	g->map.walls[SOUTH] = image_loader(g, data->tex_so);
 	g->map.walls[EAST] = image_loader(g, data->tex_ea);
@@ -99,7 +100,7 @@ static void	setup_player_from_parse(t_game *g, t_parse_data *data)
 	g->player.walk_dir = 0;
 	g->player.rot_angle = get_player_angle(data->player_dir);
 	g->player.walk_speed = 100;
-	g->player.turn_speed = 10 * (PI / 180);
+	g->player.turn_speed = 45 * (PI / 180);
 }
 
 int	main(int argc, char **argv)

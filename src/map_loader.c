@@ -1,12 +1,24 @@
-#include <stdlib.h>
-#include <unistd.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_loader.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-abre <ide-abre@student.lista42.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/08 07:57:40 by ide-abre          #+#    #+#             */
+/*   Updated: 2026/06/08 08:02:40 by ide-abre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libftutils.h"
+#include <dict.h>
 #include <fcntl.h>
 #include <gnl.h>
 #include <stdio.h>
-#include <dict.h>
-#include "libftutils.h"
+#include <stdlib.h>
+#include <unistd.h>
 
-int test_for_textures(t_dict *dict)
+int	test_for_textures(t_dict *dict)
 {
 	if (!dict_get(dict, "NO"))
 		return (0);
@@ -25,13 +37,13 @@ int test_for_textures(t_dict *dict)
 
 t_dict	*map_load(char *path)
 {
-	int fd;
-	char *str;
-	t_dict *dict;
-	char *token;
+	int		fd;
+	char	*str;
+	t_dict	*dict;
+	char	*token;
+	char	*temp;
 
-	dict = calloc(1, sizeof(dict));
-	char *temp;
+	dict = ft_calloc(1, sizeof(dict));
 	temp = NULL;
 	str = NULL;
 	fd = open(path, O_RDONLY);
@@ -44,10 +56,8 @@ t_dict	*map_load(char *path)
 			temp = token;
 			token = ft_strtok(NULL, ' ');
 			if (token)
-			{
 				if (dict_set(&dict, temp, token) == -1)
 					return (NULL);
-			}
 		}
 		str = get_next_line(fd);
 	}
@@ -60,7 +70,6 @@ void	map_display(char **map, int x, int y)
 	int	j;
 
 	(void)map;
-
 	i = 0;
 	while (i < y)
 	{
