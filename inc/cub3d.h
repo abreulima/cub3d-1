@@ -21,6 +21,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <parsing.h>
 
 #define MSG_1 "Welcome to our Cub3d. Enjoy!"
 #define MSG_2 "There is no end, no begin."
@@ -215,6 +216,7 @@ typedef struct s_game
 	t_image_data	font[256];
 	t_image_data	frame;
 	t_images		images;
+	t_parse_data 	*data;
 }					t_game;
 
 typedef enum e_walls

@@ -35,9 +35,9 @@ static int	key_click_on_x(t_game *g)
 	exit(0);
 }
 
+//	//g->images.crosshair = image_loader(g, "res/crosshair_2.xpm");
 static void	load_textures(t_game *g, t_parse_data *data)
 {
-	g->images.crosshair = image_loader(g, "res/crosshair_2.xpm");
 	g->map.walls[NORTH] = image_loader(g, data->tex_no);
 	g->map.walls[SOUTH] = image_loader(g, data->tex_so);
 	g->map.walls[EAST] = image_loader(g, data->tex_ea);
@@ -105,6 +105,7 @@ static void	setup_player_from_parse(t_game *g, t_parse_data *data)
 
 int	main(int argc, char **argv)
 {
+	#include <stdio.h>
 	t_game		game;
 	t_parse_data	data;
 

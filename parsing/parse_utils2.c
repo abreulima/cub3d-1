@@ -1,4 +1,5 @@
 #include "parsing.h"
+#include <stdio.h>
 
 int	ft_atoi_safe(char *str, int *result)
 {
@@ -57,8 +58,8 @@ int	is_map_line(char *line)
 
 void	free_parse_data(t_parse_data *data)
 {
-	int	i;
-
+	//int	i;
+	printf("->FREE %p\n", data);
 	if (data->tex_no)
 		free(data->tex_no);
 	if (data->tex_so)
@@ -67,11 +68,5 @@ void	free_parse_data(t_parse_data *data)
 		free(data->tex_we);
 	if (data->tex_ea)
 		free(data->tex_ea);
-	if (data->map)
-	{
-		i = 0;
-		while (i < data->map_h)
-			free(data->map[i++]);
-		free(data->map);
-	}
+
 }

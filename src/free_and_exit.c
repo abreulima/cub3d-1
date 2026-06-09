@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   free_and_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-abre <ide-abre@student.lista42.com>    +#+  +:+       +#+        */
+/*   By: ide-abre <ide-abre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 16:03:22 by ide-abre          #+#    #+#             */
-/*   Updated: 2026/06/09 16:18:06 by ide-abre         ###   ########.fr       */
+/*   Updated: 2026/06/09 20:23:06 by ide-abre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
+#include <stdio.h>
 
 void free_game_map(t_map *map)
 {
@@ -18,7 +19,6 @@ void free_game_map(t_map *map)
 
 	if (!map || !map->arr)
 		return;
-
 	i = 0;
 	while (i < map->h)
 	{
@@ -56,7 +56,6 @@ void free_images(t_game *g)
 	free_image(g->mlx.mlx, &g->images.font_tileset);
 	free_image(g->mlx.mlx, &g->images.crosshair);
     free_image(g->mlx.mlx, &g->frame);
-
 }
 
 
@@ -74,6 +73,17 @@ void free_dict(t_dict *dict)
 	}
 }
 
+void	free_texture_paths(t_parse_data *data)
+{
+	if (data->tex_no)
+		free(data->tex_no);
+	if (data->tex_so)
+		free(data->tex_so);
+	if (data->tex_we)
+		free(data->tex_we);
+	if (data->tex_ea)
+		free(data->tex_ea);
+}
 void cleanup(t_game *g)
 {
 	if (!g)
@@ -83,13 +93,11 @@ void cleanup(t_game *g)
 	free_walls(g);
 	free_images(g);
 	free_image(g->mlx.mlx, &g->frame);
-
 	if (g->mlx.window)
 		mlx_destroy_window(g->mlx.mlx, g->mlx.window);
-
 	if (g->mlx.mlx)
 	{
-		mlx_destroy_display(g->mlx.mlx); // Linux only
+		mlx_destroy_display(g->mlx.mlx);
 		free(g->mlx.mlx);
 	}
 }
