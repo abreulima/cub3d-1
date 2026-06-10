@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_elements.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-abre <ide-abre@student.lista42.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/10 18:12:44 by jde-carv          #+#    #+#             */
+/*   Updated: 2026/06/10 19:07:32 by ide-abre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 
 static int	is_texture_id(char *line)
@@ -22,10 +34,21 @@ static int	is_color_id(char *line)
 	return (0);
 }
 
+static int	missing_element_error(t_parse_data *data)
+{
+	if (!data->flags.has_tex_no || !data->flags.has_tex_so
+		|| !data->flags.has_tex_we || !data->flags.has_tex_ea)
+		return (E_TEX_MISS);
+	if (!data->flags.has_color_floor || !data->flags.has_color_ceil)
+		return (E_CLR_FMT);
+	return (E_TEX_MISS);
+}
+
+//		return (parse_error(E_TEX_MISS), -1);
 static int	handle_map_line(char *line, t_parse_data *data, int *map_started)
 {
 	if (!has_all_elements(data))
-		return (parse_error(E_TEX_MISS), -1);
+		return (parse_error(missing_element_error(data)), -1);
 	*map_started = 1;
 	return (parse_map_line(line, data));
 }

@@ -18,10 +18,10 @@
 #include "mlx.h"
 #include <limits.h>
 #include <math.h>
+#include <parsing.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <parsing.h>
 
 #define MSG_1 "Welcome to our Cub3d. Enjoy!"
 #define MSG_2 "There is no end, no begin."
@@ -35,7 +35,7 @@
 
 #define TILE_SIZE 32
 //#define FOV_ANGLE (60.0 * (PI / 180.0))
-#define FOV_ANGLE	1.0471975512
+#define FOV_ANGLE 1.0471975512
 #define SCALE 0.25
 
 #define WINDOW_WIDTH 800
@@ -50,7 +50,7 @@
 #define NUM_RAYS WINDOW_WIDTH
 
 //#define DELTA_TIME (1.0 / 60.0)
-#define DELTA_TIME	0.0166666667
+#define DELTA_TIME 0.0166666667
 
 typedef struct s_mlx
 {
@@ -216,7 +216,7 @@ typedef struct s_game
 	t_image_data	font[256];
 	t_image_data	frame;
 	t_images		images;
-	t_parse_data 	*data;
+	t_parse_data	*data;
 }					t_game;
 
 typedef enum e_walls
@@ -306,4 +306,5 @@ void				store_ray_angles(t_game *g, int id, float angle,
 float				perpendicular_distance(t_game *g, int ray_id);
 int					get_color_from_texture(t_game *g, int ray_id);
 unsigned int		blend(int main, int accent, float pct);
-int 				exit_game(t_game *g);
+int					exit_game(t_game *g);
+void				cleanup(t_game *g);

@@ -6,7 +6,7 @@
 /*   By: ide-abre <ide-abre@student.lista42.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/08 07:57:53 by ide-abre          #+#    #+#             */
-/*   Updated: 2026/06/09 15:52:36 by ide-abre         ###   ########.fr       */
+/*   Updated: 2026/06/10 18:22:36 by ide-abre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,29 @@ static void	handle_input(t_game *g, int *walk_dir_2)
 		g->player.turn_dir = 0;
 }
 
+/*
+static void apply_movement(t_game *g, int walk_dir_2)
+{
+float   move_step;
+float   move_step_2;
+float   new_y;
+float   new_x;
+g->player.rot_angle += g->player.turn_dir * g->player.turn_speed
+* g->delta_time;
+move_step = g->player.walk_dir * g->player.walk_speed * g->delta_time;
+move_step_2 = walk_dir_2 * g->player.walk_speed * g->delta_time;
+new_x = g->player.x + cos(g->player.rot_angle) * move_step
++ sin(g->player.rot_angle) * move_step_2;
+new_y = g->player.y + sin(g->player.rot_angle) * move_step
++ cos(g->player.rot_angle) * move_step_2;
+if (!check_wall_at(g, new_x, new_y))
+    {
+g->player.x = new_x;
+g->player.y = new_y;
+    }
+}
+*/
+
 static void	apply_movement(t_game *g, int walk_dir_2)
 {
 	float	move_step;
@@ -62,7 +85,7 @@ static void	apply_movement(t_game *g, int walk_dir_2)
 	new_x = g->player.x + cos(g->player.rot_angle) * move_step
 		+ sin(g->player.rot_angle) * move_step_2;
 	new_y = g->player.y + sin(g->player.rot_angle) * move_step
-		+ cos(g->player.rot_angle) * move_step_2;
+		- cos(g->player.rot_angle) * move_step_2;
 	if (!check_wall_at(g, new_x, new_y))
 	{
 		g->player.x = new_x;

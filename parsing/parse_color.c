@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_color.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/10 18:12:44 by jde-carv          #+#    #+#             */
+/*   Updated: 2026/06/09 20:42:12 by jde-carv         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 
 static int	parse_single_value(char **str, int *val)
@@ -51,8 +63,7 @@ static int	assign_floor(char *str, t_parse_data *data)
 {
 	if (data->flags.has_color_floor)
 		return (parse_error(E_CLR_DUP), -1);
-	if (!parse_rgb_values(str, &data->floor_r,
-			&data->floor_g, &data->floor_b))
+	if (!parse_rgb_values(str, &data->floor_r, &data->floor_g, &data->floor_b))
 		return (parse_error(E_CLR_FMT), -1);
 	data->flags.has_color_floor = 1;
 	return (0);
@@ -62,8 +73,7 @@ static int	assign_ceil(char *str, t_parse_data *data)
 {
 	if (data->flags.has_color_ceil)
 		return (parse_error(E_CLR_DUP), -1);
-	if (!parse_rgb_values(str, &data->ceil_r,
-			&data->ceil_g, &data->ceil_b))
+	if (!parse_rgb_values(str, &data->ceil_r, &data->ceil_g, &data->ceil_b))
 		return (parse_error(E_CLR_FMT), -1);
 	data->flags.has_color_ceil = 1;
 	return (0);

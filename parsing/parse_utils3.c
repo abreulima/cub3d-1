@@ -1,0 +1,102 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_utils3.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-abre <ide-abre@student.lista42.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/10 18:12:44 by jde-carv          #+#    #+#             */
+/*   Updated: 2026/06/10 18:09:45 by ide-abre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "parsing.h"
+#include <stdio.h>
+
+static const char	*get_msg(int err_id)
+{
+	static const char	*msgs[E_COUNT] = {"Error\nUsage: ./cub3d <map.cub>\n",
+		"Error\nFile must have .cub extension\n",
+		"Error\nCannot open file\n", "Error\nFile is empty\n",
+		"Error\nInvalid texture format\n",
+		"Error\nCannot open texture file\n",
+		"Error\nDuplicate texture definition\n",
+		"Error\nMissing texture definition\n",
+		"Error\nInvalid color format\n",
+		"Error\nDuplicate color definition\n",
+		"Error\nInvalid character in map\n",
+		"Error\nMap must have exactly one player\n",
+		"Error\nMap is not surrounded by walls\n",
+		"Error\nNo map found in file\n",
+		"Error\nMap must be last element in file\n",
+		"Error\nTabs are not allowed\n", "Error\nInvalid element in file\n",
+		"Error\nMemory allocation failed\n", "Error\nUnable to init MLX\n"};
+
+	if (err_id >= 0 && err_id < E_COUNT)
+		return (msgs[err_id]);
+	return (NULL);
+}
+
+/*
+
+static const char	*g_err_msgs[E_COUNT] = {"Error\nUsage: ./cub3d <map.cub>\n",
+		"Error\nFile must have .cub extension\n", "Error\nCannot open file\n",
+		"Error\nFile is empty\n", "Error\nInvalid texture format\n",
+		"Error\nCannot open texture file\n",
+		"Error\nDuplicate texture definition\n",
+		"Error\nMissing texture definition\n", "Error\nInvalid color format\n",
+		"Error\nDuplicate color definition\n",
+		"Error\nInvalid character in map\n",
+		"Error\nMap must have exactly one player\n",
+		"Error\nMap is not surrounded by walls\n",
+		"Error\nNo map found in file\n",
+		"Error\nMap must be last element in file\n",
+		"Error\nTabs are not allowed\n", "Error\nInvalid element in file\n",
+		"Error\nMemory allocation failed\n", "Error\nUnable to init MLX\n"};
+*/
+
+int	flags_all_set(t_flags *f)
+{
+	if (!f->file_valid || !f->has_tex_no)
+		return (0);
+	if (!f->has_tex_so || !f->has_tex_we)
+		return (0);
+	if (!f->has_tex_ea || !f->has_color_floor)
+		return (0);
+	if (!f->has_color_ceil || !f->has_map)
+		return (0);
+	if (!f->has_player || !f->walls_closed)
+		return (0);
+	return (1);
+}
+
+/*
+void	parse_error(int err_id)
+{
+	if (err_id >= 0 && err_id < E_COUNT)
+		ft_putstr((char *)g_err_msgs[err_id]);
+}
+		*/
+
+void	parse_error(int err_id)
+{
+	const char	*msg;
+
+	msg = get_msg(err_id);
+	if (msg)
+		ft_putstr((char *)msg);
+}
+/*
+
+char	*get_err_msg(int err_id)
+{
+	if (err_id >= 0 && err_id < E_COUNT)
+		return ((char *)g_err_msgs[err_id]);
+	return (NULL);
+}
+*/
+
+char	*get_err_msg(int err_id)
+{
+	return ((char *)get_msg(err_id));
+}

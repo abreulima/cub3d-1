@@ -3,22 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   free_and_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-abre <ide-abre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ide-abre <ide-abre@student.lista42.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 16:03:22 by ide-abre          #+#    #+#             */
-/*   Updated: 2026/06/09 20:23:06 by ide-abre         ###   ########.fr       */
+/*   Updated: 2026/06/10 18:00:23 by ide-abre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-#include <stdio.h>
 
-void free_game_map(t_map *map)
+void	free_game_map(t_map *map)
 {
-	int i;
+	int	i;
 
 	if (!map || !map->arr)
-		return;
+		return ;
 	i = 0;
 	while (i < map->h)
 	{
@@ -30,18 +29,19 @@ void free_game_map(t_map *map)
 	map->w = 0;
 	map->h = 0;
 }
-void free_image(void *mlx, t_image_data *img)
+
+void	free_image(void *mlx, t_image_data *img)
 {
 	if (!img || !img->ptr)
-		return;
-
+		return ;
 	mlx_destroy_image(mlx, img->ptr);
 	img->ptr = NULL;
 	img->buffer = NULL;
 }
-void free_walls(t_game *g)
+
+void	free_walls(t_game *g)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < 4)
@@ -51,44 +51,17 @@ void free_walls(t_game *g)
 	}
 }
 
-void free_images(t_game *g)
+void	free_images(t_game *g)
 {
 	free_image(g->mlx.mlx, &g->images.font_tileset);
 	free_image(g->mlx.mlx, &g->images.crosshair);
-    free_image(g->mlx.mlx, &g->frame);
+	free_image(g->mlx.mlx, &g->frame);
 }
 
-
-void free_dict(t_dict *dict)
-{
-	t_dict *tmp;
-
-	while (dict)
-	{
-		tmp = dict->next;
-		free(dict->key);
-		free(dict->value);
-		free(dict);
-		dict = tmp;
-	}
-}
-
-void	free_texture_paths(t_parse_data *data)
-{
-	if (data->tex_no)
-		free(data->tex_no);
-	if (data->tex_so)
-		free(data->tex_so);
-	if (data->tex_we)
-		free(data->tex_we);
-	if (data->tex_ea)
-		free(data->tex_ea);
-}
-void cleanup(t_game *g)
+void	cleanup(t_game *g)
 {
 	if (!g)
-		return;
-
+		return ;
 	free_game_map(&g->map);
 	free_walls(g);
 	free_images(g);
@@ -100,11 +73,4 @@ void cleanup(t_game *g)
 		mlx_destroy_display(g->mlx.mlx);
 		free(g->mlx.mlx);
 	}
-}
-
-int exit_game(t_game *g)
-{
-	cleanup(g);
-	exit(0);
-	return 0;
 }

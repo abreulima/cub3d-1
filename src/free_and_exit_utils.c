@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   free_and_exit_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ide-abre <ide-abre@student.lista42.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/09 20:42:27 by jde-carv          #+#    #+#             */
-/*   Updated: 2026/06/09 20:42:27 by jde-carv         ###   ########.fr       */
+/*   Created: 2026/06/09 16:03:22 by ide-abre          #+#    #+#             */
+/*   Updated: 2026/06/10 18:00:31 by ide-abre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "stdlib.h"
+#include <cub3d.h>
 
-void	*ft_calloc(size_t count, size_t size)
+int	exit_game(t_game *g)
 {
-	unsigned char *tmp;
-	size_t i;
-
-	i = 0;
-	tmp = malloc(count * size);
-	if (!tmp)
-		return (NULL);
-	while (i < count * size)
-		tmp[i++] = 0;
-	return (tmp);
+	cleanup(g);
+	exit(0);
+	return (0);
 }

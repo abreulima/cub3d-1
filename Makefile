@@ -25,14 +25,17 @@ SRC			= $(SRC_DIR)/gnl.c \
 			  $(SRC_DIR)/player.c \
 			  $(SRC_DIR)/image_loader.c \
 			  $(SRC_DIR)/free_and_exit.c \
+			  $(SRC_DIR)/free_and_exit_utils.c \
 			  $(PARSE_DIR)/parse_file.c \
 			  $(PARSE_DIR)/parse_elements.c \
 			  $(PARSE_DIR)/parse_texture.c \
+			  $(PARSE_DIR)/parse_texture2.c \
 			  $(PARSE_DIR)/parse_color.c \
 			  $(PARSE_DIR)/parse_map.c \
 			  $(PARSE_DIR)/parse_map_validate.c \
 			  $(PARSE_DIR)/parse_utils.c \
 			  $(PARSE_DIR)/parse_utils2.c \
+			  $(PARSE_DIR)/parse_utils3.c \
 			  main.c
 
 OBJ_DIR		= obj

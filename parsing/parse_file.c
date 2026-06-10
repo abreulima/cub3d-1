@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_file.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-abre <ide-abre@student.lista42.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/10 18:12:44 by jde-carv          #+#    #+#             */
+/*   Updated: 2026/06/10 19:01:21 by ide-abre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 
 int	check_file_ext(char *path)
@@ -84,3 +96,30 @@ int	parse_file(char *path, t_parse_data *data)
 		return (parse_error(E_TEX_MISS), free_parse_data(data), -1);
 	return (0);
 }
+
+/*
+int	parse_file(char *path, t_parse_data *data)
+{
+	int	fd;
+
+	init_parse_data(data);
+	if (!check_file_ext(path))
+		return (parse_error(E_EXT), -1);
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		return (parse_error(E_OPEN), -1);
+	data->flags.file_valid = 1;
+	if (read_file_lines(fd, data) == -1)
+	{
+		close(fd);
+		free_parse_data(data);
+		return (-1);
+	}
+	close(fd);
+	if (validate_final(data) == -1)
+		return (free_parse_data(data), -1);
+	if (!flags_all_set(&data->flags))
+		return (parse_error(E_TEX_MISS), free_parse_data(data), -1);
+	return (0);
+}
+*/
