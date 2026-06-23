@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-abre <ide-abre@student.lista42.com>    +#+  +:+       +#+        */
+/*   By: ide-abre <ide-abre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/08 07:58:04 by ide-abre          #+#    #+#             */
-/*   Updated: 2026/06/09 15:52:04 by ide-abre         ###   ########.fr       */
+/*   Updated: 2026/06/23 18:51:34 by ide-abre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static void	render_player(t_game *g)
 void	render(t_game *g)
 {
 	clear_window(&g->frame);
-	render_skybox(g, g->map.ceiling_color, g->map.floor_color);
+	render_skybox(g, g->map.floor_color, g->map.ceiling_color);
 	render_walls(g);
 	render_map(g);
 	render_rays(g);

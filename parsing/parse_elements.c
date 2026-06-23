@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_elements.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-abre <ide-abre@student.lista42.com>    +#+  +:+       +#+        */
+/*   By: ide-abre <ide-abre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 18:12:44 by jde-carv          #+#    #+#             */
-/*   Updated: 2026/06/10 19:07:32 by ide-abre         ###   ########.fr       */
+/*   Updated: 2026/06/23 18:41:28 by ide-abre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,3 +73,4 @@ int	parse_line(char *line, t_parse_data *data, int *map_started)
 		return (handle_map_line(line, data, map_started));
 	return (parse_error(E_ELEM), -1);
 }
+

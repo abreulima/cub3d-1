@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-abre <ide-abre@student.lista42.com>    +#+  +:+       +#+        */
+/*   By: ide-abre <ide-abre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/08 07:57:53 by ide-abre          #+#    #+#             */
-/*   Updated: 2026/06/10 18:22:36 by ide-abre         ###   ########.fr       */
+/*   Updated: 2026/06/23 18:09:02 by ide-abre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,23 @@ bool	check_wall_at(t_game *g, float x, float y)
 	x_to_grid = floor(x / TILE_SIZE);
 	y_to_grid = floor(y / TILE_SIZE);
 	return (g->map.arr[y_to_grid][x_to_grid] == '1');
+}
+
+static bool	check_player_collision_at(t_game *g, float x, float y)
+{
+	float	left;
+	float	right;
+	float	top;
+	float	bottom;
+
+	left = x - (g->player.width / 2.0f) + 1.0f;
+	right = x + (g->player.width / 2.0f) - 1.0f;
+	top = y - (g->player.height / 2.0f) + 1.0f;
+	bottom = y + (g->player.height / 2.0f) - 1.0f;
+	return (check_wall_at(g, left, top)
+		|| check_wall_at(g, right, top)
+		|| check_wall_at(g, left, bottom)
+		|| check_wall_at(g, right, bottom));
 }
 
 static void	handle_input(t_game *g, int *walk_dir_2)
@@ -75,8 +92,8 @@ static void	apply_movement(t_game *g, int walk_dir_2)
 {
 	float	move_step;
 	float	move_step_2;
-	float	new_y;
 	float	new_x;
+	float	new_y;
 
 	g->player.rot_angle += g->player.turn_dir * g->player.turn_speed
 		* g->delta_time;
@@ -84,11 +101,12 @@ static void	apply_movement(t_game *g, int walk_dir_2)
 	move_step_2 = walk_dir_2 * g->player.walk_speed * g->delta_time;
 	new_x = g->player.x + cos(g->player.rot_angle) * move_step
 		+ sin(g->player.rot_angle) * move_step_2;
+	if (!check_player_collision_at(g, new_x, g->player.y))
+		g->player.x = new_x;
 	new_y = g->player.y + sin(g->player.rot_angle) * move_step
 		- cos(g->player.rot_angle) * move_step_2;
-	if (!check_wall_at(g, new_x, new_y))
+	if (!check_player_collision_at(g, g->player.x, new_y))
 	{
-		g->player.x = new_x;
 		g->player.y = new_y;
 	}
 }

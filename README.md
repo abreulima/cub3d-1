@@ -8,13 +8,7 @@ Each segment is called a ray. With every ray calculated, it is possible to rende
 
 # Instructions
 
-Cub3d depends on the MiniLibX library to run. Since the subject does not specify how the library should be imported, we have shipped it as a `.tgz` file inside the `minilibx` folder to simplify setup.
-
-```bash
-cd minilibx
-tar -xvf minilibx-linux.tgz
-make
-```
+Cub3d depends on the MiniLibX library to run. It will compile the along side with cub3D.
 
 In the root folder, to compile the game:
 ```bash
