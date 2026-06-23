@@ -1,11 +1,22 @@
-#include <stdlib.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libftutils.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/09 20:42:55 by jde-carv          #+#    #+#             */
+/*   Updated: 2026/06/16 20:00:24 by jde-carv         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include <stdlib.h>
 
 char	*ft_strdup(const char *s1);
 char	*ft_itoa(int n);
-int	ft_strcmp(const char *s1, const char *s2);
-int	ft_strlen(const char *s);
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strcmp(const char *s1, const char *s2);
+int		ft_strlen(const char *s);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strtok(char *str, char sepa);
 void	ft_putstr(char *str);
 char	*ft_strchr(const char *s, int c);

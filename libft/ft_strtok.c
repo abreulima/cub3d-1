@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "libftutils.h"
+#include <stdio.h>
 
 char	*ft_strtok(char *str, char sepa)
 {

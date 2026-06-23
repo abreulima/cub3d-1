@@ -1,4 +1,4 @@
-NAME		= cub3d
+NAME		= cub3D
 CC			= cc
 CFLAGS		= -Wall -Wextra -Werror -Iinc -Ilibft -Iparsing
 RM			= rm -rf
@@ -26,6 +26,7 @@ SRC			= $(SRC_DIR)/gnl.c \
 			  $(SRC_DIR)/image_loader.c \
 			  $(SRC_DIR)/free_and_exit.c \
 			  $(SRC_DIR)/free_and_exit_utils.c \
+			  $(SRC_DIR)/game_management.c \
 			  $(PARSE_DIR)/parse_file.c \
 			  $(PARSE_DIR)/parse_elements.c \
 			  $(PARSE_DIR)/parse_texture.c \
@@ -64,7 +65,7 @@ $(OBJ_DIR)/%.o: %.c
 	$(CC) $(CFLAGS) -I$(MLX_DIR) -c $< -o $@
 
 clean:
-	$(RM) $(OBJ_DIR)
+	$(RM) $(OBJ_DIR) $(MLX_DIR)
 	make -C libft clean
 	@if [ -d "$(MLX_DIR)" ]; then make -C $(MLX_DIR) clean; fi
 

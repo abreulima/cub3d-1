@@ -6,19 +6,20 @@
 /*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 20:42:44 by jde-carv          #+#    #+#             */
-/*   Updated: 2026/06/09 20:42:44 by jde-carv         ###   ########.fr       */
+/*   Updated: 2026/06/16 20:01:03 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-void    ft_putstr(char *str)
+void	ft_putstr(char *str)
 {
-    int i;
-    i = 0;
-    while (str[i] != '\0')
-    {
-        (void)!write(1, &str[i], 1);
-        i++;
-    }
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		(void)!write(1, &str[i], 1);
+		i++;
+	}
 }

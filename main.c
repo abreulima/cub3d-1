@@ -1,53 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/08 07:57:48 by ide-abre          #+#    #+#             */
+/*   Updated: 2026/06/16 20:37:18 by jde-carv         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 #include "parsing.h"
-
-static int	game_loop(void *data)
-{
-	t_game	*g;
-
-	g = (t_game *)data;
-	move_player(g);
-	cast_rays(g);
-	render(g);
-	return (0);
-}
-
-static int	keydown(int keycode, t_game *g)
-{
-	g->keys[keycode] = true;
-	if (keycode == ESC_KEY)
-	{
-		exit_game(g);
-		exit(0);
-	}
-	return (0);
-}
-
-static int	keyup(int keycode, t_game *g)
-{
-	g->keys[keycode] = false;
-	return (0);
-}
-
-static int	key_click_on_x(t_game *g)
-{
-	exit_game(g);
-	exit(0);
-}
-
-//	//g->images.crosshair = image_loader(g, "res/crosshair_2.xpm");
-static void	load_textures(t_game *g, t_parse_data *data)
-{
-	g->map.walls[NORTH] = image_loader(g, data->tex_no);
-	g->map.walls[SOUTH] = image_loader(g, data->tex_so);
-	g->map.walls[EAST] = image_loader(g, data->tex_ea);
-	g->map.walls[WEST] = image_loader(g, data->tex_we);
-}
-
-static int	rgb_to_int(int r, int g, int b)
-{
-	return ((r << 16) | (g << 8) | b);
-}
+#include <stdio.h>
 
 static void	apply_parse_data(t_game *g, t_parse_data *data)
 {
@@ -105,8 +70,7 @@ static void	setup_player_from_parse(t_game *g, t_parse_data *data)
 
 int	main(int argc, char **argv)
 {
-	#include <stdio.h>
-	t_game		game;
+	t_game			game;
 	t_parse_data	data;
 
 	if (argc != 2)

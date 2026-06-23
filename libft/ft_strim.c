@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
 #include "libftutils.h"
+#include <stdlib.h>
 
 char	*ft_strtrim(const char *s1, const char *set)
 {

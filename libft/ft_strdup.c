@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
 #include "libftutils.h"
+#include <stdlib.h>
 
 char	*ft_strdup(const char *s1)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-abre <ide-abre@student.lista42.com>    +#+  +:+       +#+        */
+/*   By: jde-carv <jde-carv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/08 22:18:23 by ide-abre          #+#    #+#             */
-/*   Updated: 2026/06/08 22:18:33 by ide-abre         ###   ########.fr       */
+/*   Updated: 2026/06/16 20:03:05 by jde-carv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,17 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	d = (char *)dst;
 	i = 0;
 	if (d > s)
+	{
 		while (len-- > 0)
 			d[len] = s[len];
+	}
 	else
+	{
 		while (i < len)
 		{
 			d[i] = s[i];
 			i++;
 		}
+	}
 	return (dst);
 }
